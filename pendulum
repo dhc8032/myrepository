@@ -39,7 +39,6 @@
     
     
     let rep = setInterval(update, 10);
-    //also stolen from said website
     function update(){
         c.width = c.width;
         let bob = c.getContext("2d");
@@ -62,6 +61,7 @@
         bob.fill();
         bob.closePath();
     }
+    // also from said website
     function getObjectFitSize(contains, containerWidth, containerHeight, width, height) {
         var doRatio = width / height;
         var cRatio = containerWidth / containerHeight;
