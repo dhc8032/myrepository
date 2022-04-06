@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<style>
+    #canvas{
+        width: 100%;
+        height: 50%;
+        background-color: #000000;
+        object-fit: contain;
+    }
+    
+</style>
+
+<head>
+
+</head>
+<body>
+</body>
+<canvas id = "canvas"></canvas>
+<script>
+    const c = document.getElementById("canvas");
+    //code stolen from https://medium.com/@doomgoober/understanding-html-canvas-scaling-and-sizing-c04925d9a830
+    const dimensions = getObjectFitSize(
+    true,
+    c.clientWidth,
+    c.clientHeight,
+    c.width,
+    c.height
+  );
+
+    c.width = dimensions.width;
+    c.height = dimensions.height;
+    //end of stealing (for now)
+
+    let originY = 50;
+    let originX = c.width/2;
+    let leng = 200;
+    let angle = Math.PI/2;
+    let angleVe = 0;
+    
+    
+    let rep = setInterval(update, 10);
+    //also stolen from said website
+    function update(){
+        c.width = c.width;
+        let bob = c.getContext("2d");
+        let line = c.getContext("2d");
+        let angleAcc = -Math.sin(angle)/leng;
+        angleVe += angleAcc;
+        angle += angleVe;
+        let posX = originX + Math.sin(angle)*leng;
+        let posY = originY + Math.cos(angle)*leng;
+        line.strokeStyle = "#FFFFFF";
+        line.lineWidth = 5;
+        line.beginPath();
+        line.moveTo(originX, originY);
+        line.lineTo(posX, posY);
+        line.stroke();
+        line.closePath();
+        bob.fillStyle = "#FFFFFF";
+        bob.beginPath();
+        bob.ellipse(posX, posY, 20, 20, 0, 0, Math.PI*2);
+        bob.fill();
+        bob.closePath();
+    }
+    function getObjectFitSize(contains, containerWidth, containerHeight, width, height) {
+        var doRatio = width / height;
+        var cRatio = containerWidth / containerHeight;
+        var targetWidth = 0;
+        var targetHeight = 0;
+        var test = contains ? doRatio > cRatio : doRatio < cRatio;
+        
+        if (test) {
+            targetWidth = containerWidth;
+            targetHeight = targetWidth / doRatio;
+        } else {
+            targetHeight = containerHeight;
+            targetWidth = targetHeight * doRatio;
+        };
+
+        return {
+            width: targetWidth,
+            height: targetHeight,
+            x: (containerWidth - targetWidth) / 2,
+            y: (containerHeight - targetHeight) / 2
+        };
+    };
+    //end of stealing
+    
+</script>
+
+</html>
